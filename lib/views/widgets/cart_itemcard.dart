@@ -1,0 +1,131 @@
+import 'package:alkor_shopin/models/cart_model.dart';
+import 'package:alkor_shopin/views/widgets/quantity_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../providers/cart_provider.dart';
+
+class CartItemCard extends ConsumerWidget {
+  final CartItem item;
+
+  const CartItemCard({
+    super.key,
+    required this.item,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// PRODUCT IMAGE
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                item.product.image,
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) =>
+                    const Icon(Icons.broken_image, size: 40),
+              ),
+            ),
+
+            const SizedBox(width: 12),
+
+            /// PRODUCT DETAILS + QUANTITY
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// PRODUCT NAME
+                  Text(
+                    item.product.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  /// PRICE
+                  Text(
+                    '₹ ${item.product.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  /// QUANTITY CONTROLS
+                  Row(
+                    children: [
+                      QuantityButton(
+                        icon: Icons.remove,
+                        onTap: item.quantity > 1
+                            ? () {
+                                ref
+                                    .read(cartProvider.notifier)
+                                    .updateQuantity(
+                                      item.product,
+                                      item.quantity - 1,
+                                    );
+                              }
+                            : null,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          item.quantity.toString(),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      QuantityButton(
+                        icon: Icons.add,
+                        onTap: () {
+                          ref
+                              .read(cartProvider.notifier)
+                              .updateQuantity(
+                                item.product,
+                                item.quantity + 1,
+                              );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            /// DELETE BUTTON
+            IconButton(
+              icon: const Icon(Icons.delete_outline, color: Colors.red),
+              onPressed: () {
+                ref
+                    .read(cartProvider.notifier)
+                    .removeFromCart(item.product);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
