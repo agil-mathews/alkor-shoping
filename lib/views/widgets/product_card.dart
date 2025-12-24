@@ -1,37 +1,42 @@
+import 'package:alkor_shopin/core/themes/color_scheme.dart';
+import 'package:alkor_shopin/core/utils/mediaquery.dart';
+import 'package:alkor_shopin/core/widgets/buttons/custombutton.dart';
 import 'package:alkor_shopin/models/product_model.dart';
 import 'package:alkor_shopin/providers/cart_provider.dart';
 import 'package:alkor_shopin/providers/wishlist_provider.dart';
+import 'package:alkor_shopin/views/pages/product_detailspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 class ProductCard extends ConsumerWidget {
   final Product product;
 
-  const ProductCard({
-    super.key,
-    required this.product,
-  });
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlistIds = ref.watch(wishlistProvider);
     final isWishlisted = wishlistIds.contains(product.id);
+    final cartItems = ref.watch(cartProvider);
+
+    final isInCart = cartItems.any((item) => item.product.id == product.id);
 
     return Card(
       elevation: 3,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // Navigate to product details
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ProductDetailPage(product: product),
+            ),
+          );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// IMAGE + WISHLIST OVERLAY
             Expanded(
               child: Stack(
                 children: [
@@ -42,13 +47,12 @@ class ProductCard extends ConsumerWidget {
                     child: Image.network(
                       product.image,
                       width: double.infinity,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       errorBuilder: (_, __, ___) =>
                           const Center(child: Icon(Icons.broken_image)),
                     ),
                   ),
 
-                  /// Wishlist Button
                   Positioned(
                     top: 8,
                     right: 8,
@@ -62,19 +66,17 @@ class ProductCard extends ConsumerWidget {
                         duration: const Duration(milliseconds: 250),
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: .9),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 6,
-                              color: Colors.black.withOpacity(0.15),
+                              color: Colors.black.withValues(alpha: .15),
                             ),
                           ],
                         ),
                         child: Icon(
-                          isWishlisted
-                              ? Icons.favorite
-                              : Icons.favorite_border,
+                          isWishlisted ? Icons.favorite : Icons.favorite_border,
                           size: 20,
                           color: isWishlisted ? Colors.red : Colors.grey,
                         ),
@@ -85,7 +87,6 @@ class ProductCard extends ConsumerWidget {
               ),
             ),
 
-            /// PRODUCT DETAILS
             Padding(
               padding: const EdgeInsets.all(8),
               child: Column(
@@ -95,9 +96,12 @@ class ProductCard extends ConsumerWidget {
                     product.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontSize: getResponsiveFontSize(
+                        context,
+                        defaultFontSize: 12,
+                        widePortraitFontSize: 12,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 6),
@@ -106,19 +110,23 @@ class ProductCard extends ConsumerWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
-                      color: Colors.green,
+                      color: AppColors.black,
                     ),
                   ),
                   const SizedBox(height: 8),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: CustomButton(
+                      text: isInCart ? "Remove" : "Add to Cart",
                       onPressed: () {
-                        ref
-                            .read(cartProvider.notifier)
-                            .addToCart(product);
+                        ref.read(cartProvider.notifier).addToCart(product);
                       },
-                      child: const Text('Add to Cart'),
+                      isEnabled: true,
+                      color: AppColors.primaryColor,
+                      textColor: AppColors.white,
+                      defaultFontSize: 12,
+                      widePortraitFontSize: 14,
+                      borderRadius: 18,
                     ),
                   ),
                 ],

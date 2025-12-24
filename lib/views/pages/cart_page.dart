@@ -1,3 +1,5 @@
+import 'package:alkor_shopin/core/themes/color_scheme.dart';
+import 'package:alkor_shopin/core/utils/mediaquery.dart';
 import 'package:alkor_shopin/providers/cart_provider.dart';
 import 'package:alkor_shopin/views/widgets/cart_itemcard.dart';
 import 'package:alkor_shopin/views/widgets/cartprice_summary.dart';
@@ -12,8 +14,18 @@ class CartPage extends ConsumerWidget {
     final cartItems = ref.watch(cartProvider);
 
     return Scaffold(
+      backgroundColor: AppColors.white,
       appBar: AppBar(
-        title: const Text('Cart'),
+        title:  Text('Cart',
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: getResponsiveFontSize(
+              context,
+              defaultFontSize: 20,
+              widePortraitFontSize: 12,
+            ),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
       ),
       body: cartItems.isEmpty
@@ -31,15 +43,6 @@ class CartPage extends ConsumerWidget {
               const CartPriceSummary(),
             ],
           ),
-      // bottomNavigationBar: cartItems.isNotEmpty
-      //     ? Padding(
-      //         padding: const EdgeInsets.all(12),
-      //         child: ElevatedButton(
-      //           onPressed: () {},
-      //           child: const Text('Checkout'),
-      //         ),
-      //       )
-      //     : null,
     );
   }
 }

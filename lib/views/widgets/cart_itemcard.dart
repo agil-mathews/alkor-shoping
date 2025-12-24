@@ -1,3 +1,5 @@
+import 'package:alkor_shopin/core/themes/color_scheme.dart';
+import 'package:alkor_shopin/core/utils/mediaquery.dart';
 import 'package:alkor_shopin/models/cart_model.dart';
 import 'package:alkor_shopin/views/widgets/quantity_button.dart';
 import 'package:flutter/material.dart';
@@ -26,14 +28,14 @@ class CartItemCard extends ConsumerWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// PRODUCT IMAGE
+            
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
                 item.product.image,
                 width: 80,
                 height: 80,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 errorBuilder: (_, __, ___) =>
                     const Icon(Icons.broken_image, size: 40),
               ),
@@ -41,37 +43,41 @@ class CartItemCard extends ConsumerWidget {
 
             const SizedBox(width: 12),
 
-            /// PRODUCT DETAILS + QUANTITY
+            
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// PRODUCT NAME
+                  
                   Text(
                     item.product.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
+                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: getResponsiveFontSize(
+              context,
+              defaultFontSize: 14,
+              widePortraitFontSize: 12,
+            ),
+            fontWeight: FontWeight.bold,
+          ),
                   ),
 
                   const SizedBox(height: 8),
 
-                  /// PRICE
+                 
                   Text(
                     '₹ ${item.product.price.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                      color: AppColors.primaryColor
                     ),
                   ),
 
                   const SizedBox(height: 8),
 
-                  /// QUANTITY CONTROLS
+                  
                   Row(
                     children: [
                       QuantityButton(
@@ -114,9 +120,9 @@ class CartItemCard extends ConsumerWidget {
               ),
             ),
 
-            /// DELETE BUTTON
+            
             IconButton(
-              icon: const Icon(Icons.delete_outline, color: Colors.red),
+              icon: const Icon(Icons.delete, color: Colors.red, size: 28,),
               onPressed: () {
                 ref
                     .read(cartProvider.notifier)

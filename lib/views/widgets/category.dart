@@ -14,6 +14,6 @@ final demoCategories = [
       'https://cdn-icons-png.flaticon.com/512/1946/1946436.png'),
   Category('Beauty',
       'https://cdn-icons-png.flaticon.com/512/3081/3081559.png'),
-  Category('Sports',
+  Category('Food',
       'https://cdn-icons-png.flaticon.com/512/2965/2965567.png'),
 ];

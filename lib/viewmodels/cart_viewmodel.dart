@@ -10,7 +10,7 @@ class CartViewModel extends StateNotifier<List<CartItem>> {
         state.indexWhere((item) => item.product.id == product.id);
 
     if (index == -1) {
-      state = [...state, CartItem(product: product, quantity: 1, )];
+      state = [...state, CartItem(product: product, quantity: 1, price: product.price)];
     } else {
       state[index] =
           state[index].copyWith(quantity: state[index].quantity + 1);
