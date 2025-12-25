@@ -1,4 +1,6 @@
+import 'package:alkor_shopin/core/themes/color_scheme.dart';
 import 'package:alkor_shopin/core/utils/mediaquery.dart';
+import 'package:alkor_shopin/core/widgets/buttons/custombutton.dart';
 import 'package:alkor_shopin/providers/cart_provider.dart';
 import 'package:alkor_shopin/providers/product_provider.dart';
 import 'package:alkor_shopin/views/pages/cart_page.dart';
@@ -59,12 +61,66 @@ class ProductHomePage extends ConsumerWidget {
       ),
       body: productState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
+        // error: (error, _) => Center(
+        //   child: Text(
+        //     error.toString(),
+        //     style: const TextStyle(color: Colors.red),
+        //   ),
+        // ),
         error: (error, _) => Center(
-          child: Text(
-            error.toString(),
-            style: const TextStyle(color: Colors.red),
-          ),
+  child: Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 24),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.error_outline,
+          size: 56,
+          color: Colors.red.shade400,
         ),
+        const SizedBox(height: 12),
+        Text(
+          'Something went wrong',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: getResponsiveFontSize(
+                  context,
+                  defaultFontSize: 18,
+                  widePortraitFontSize: 14,
+                ),
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          'Please check your internet connection and try again.',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 16),
+
+        
+        SizedBox(
+          width: 160,
+          child:
+          CustomButton(
+                      text: "Retry",
+                      onPressed: () {
+                          ref.read(productProvider.notifier).fetchProducts();
+                      },
+                      isEnabled: true,
+                      color: AppColors.primaryColor,
+                      textColor: AppColors.white,
+                      defaultFontSize: 14,
+                      widePortraitFontSize: 10,
+                      borderRadius: 18,
+                    ),
+        ),
+      ],
+    ),
+  ),
+),
+
         data: (products) {
           if (products.isEmpty) {
             return Center(
