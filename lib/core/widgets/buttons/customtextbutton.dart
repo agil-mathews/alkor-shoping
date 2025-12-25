@@ -23,7 +23,7 @@ Widget customTextButton({
       ),
       side: WidgetStatePropertyAll(
         BorderSide(
-          color: borderColor ?? AppColors.black, // use borderColor if provided
+          color: borderColor ?? AppColors.black, 
         ),
       ),
       shape: WidgetStatePropertyAll(
@@ -36,7 +36,7 @@ Widget customTextButton({
       label,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
         fontWeight: FontWeight.bold,
-        color: textColor, // use textColor if provided
+        color: textColor, 
         fontSize: getResponsiveFontSize(
           context,
           defaultFontSize: defaultFontSize!,

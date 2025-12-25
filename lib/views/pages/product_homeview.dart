@@ -121,14 +121,14 @@ class ProductHomePage extends ConsumerWidget {
                   ),
 
                   SizedBox(
-                    height: 130,
+                    height: 110,
                     child: Align(
                       alignment: Alignment.center,
                       child: SizedBox(
                          width: constraints.maxWidth >= 1024
-          ? 800   // desktop
+          ? 800   
           : constraints.maxWidth >= 600
-              ? 600 // tablet
+              ? 600 
               : double.infinity,
                         child: ListView.separated(
                           padding: const EdgeInsets.symmetric(horizontal: 12),

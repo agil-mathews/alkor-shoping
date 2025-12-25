@@ -119,7 +119,11 @@ class ProductCard extends ConsumerWidget {
                     child: CustomButton(
                       text: isInCart ? "Remove" : "Add Cart",
                       onPressed: () {
-                        ref.read(cartProvider.notifier).addToCart(product);
+                       if (isInCart) {
+                    ref.read(cartProvider.notifier).removeFromCart(product);
+                  } else {
+                    ref.read(cartProvider.notifier).addToCart(product);
+                  }
                       },
                       isEnabled: true,
                       color: AppColors.primaryColor,

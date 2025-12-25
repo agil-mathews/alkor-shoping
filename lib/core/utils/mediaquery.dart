@@ -19,18 +19,18 @@ Orientation  getScreenOrientation(BuildContext context) {
     double? widePortraitFontSize,
     double? landscapeNarrowFontSize,
     double? landscapeWideFontSize,
-    double? smallScreenFontSize, // New optional param
+    double? smallScreenFontSize, 
   }) {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     final screenWidth = getScreenWidth(context);
 
       if (screenWidth <= 380) {
-    return (smallScreenFontSize ?? defaultFontSize - 2).sp; // scale down by 2 or use provided size
+    return (smallScreenFontSize ?? defaultFontSize - 2).sp; 
   }
 
         if (screenWidth <= 350) {
-    return (smallScreenFontSize ?? defaultFontSize - 4).sp; // scale down by 2 or use provided size
+    return (smallScreenFontSize ?? defaultFontSize - 4).sp;
   }
 
     if (isLandscape) {

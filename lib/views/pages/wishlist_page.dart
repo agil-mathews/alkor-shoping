@@ -28,7 +28,7 @@ class WishlistPage extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.shopping_cart),
                 onPressed: () {
-                  // DefaultTabController.of(context);
+                  
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const CartPage()),
                   );

@@ -10,25 +10,19 @@ import '../../providers/cart_provider.dart';
 class CartItemCard extends ConsumerWidget {
   final CartItem item;
 
-  const CartItemCard({
-    super.key,
-    required this.item,
-  });
+  const CartItemCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.symmetric(vertical: 8),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
@@ -43,41 +37,37 @@ class CartItemCard extends ConsumerWidget {
 
             const SizedBox(width: 12),
 
-            
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
                   Text(
                     item.product.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            fontSize: getResponsiveFontSize(
-              context,
-              defaultFontSize: 14,
-              widePortraitFontSize: 10,
-            ),
-            fontWeight: FontWeight.bold,
-          ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                 
-                  Text(
-                    '₹ ${item.product.price.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontSize: getResponsiveFontSize(
+                        context,
+                        defaultFontSize: 14,
+                        widePortraitFontSize: 10,
+                      ),
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor
                     ),
                   ),
 
                   const SizedBox(height: 8),
 
-                  
+                  Text(
+                    '₹ ${item.product.price.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
                   Row(
                     children: [
                       QuantityButton(
@@ -108,10 +98,7 @@ class CartItemCard extends ConsumerWidget {
                         onTap: () {
                           ref
                               .read(cartProvider.notifier)
-                              .updateQuantity(
-                                item.product,
-                                item.quantity + 1,
-                              );
+                              .updateQuantity(item.product, item.quantity + 1);
                         },
                       ),
                     ],
@@ -120,13 +107,10 @@ class CartItemCard extends ConsumerWidget {
               ),
             ),
 
-            
             IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red, size: 28,),
+              icon: const Icon(Icons.delete, color: Colors.red, size: 28),
               onPressed: () {
-                ref
-                    .read(cartProvider.notifier)
-                    .removeFromCart(item.product);
+                ref.read(cartProvider.notifier).removeFromCart(item.product);
               },
             ),
           ],
