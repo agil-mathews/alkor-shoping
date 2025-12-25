@@ -85,7 +85,7 @@ class ProductDetailPage extends ConsumerWidget {
                 fontSize: getResponsiveFontSize(
                   context,
                   defaultFontSize: 19,
-                  widePortraitFontSize: 12,
+                  widePortraitFontSize: 16,
                 ),
                 fontWeight: FontWeight.bold,
               ),
@@ -133,7 +133,7 @@ class ProductDetailPage extends ConsumerWidget {
                 color: AppColors.primaryColor,
                 textColor: AppColors.white,
                 defaultFontSize: 16,
-                widePortraitFontSize: 14,
+                widePortraitFontSize: 12,
                 borderRadius: 18,
               ),
             ),
@@ -151,7 +151,14 @@ class ProductDetailPage extends ConsumerWidget {
                 },
                 child: Text(
                   isWishlisted ? "Remove from Wishlist" : "Add to Wishlist",
-                  style: const TextStyle(fontSize: 16),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+            fontSize: getResponsiveFontSize(
+              context,
+              defaultFontSize: 16,
+              widePortraitFontSize: 12,
+            ),
+            fontWeight: FontWeight.bold,
+          ),
                 ),
               ),
             ),

@@ -57,7 +57,7 @@ class CartItemCard extends ConsumerWidget {
             fontSize: getResponsiveFontSize(
               context,
               defaultFontSize: 14,
-              widePortraitFontSize: 12,
+              widePortraitFontSize: 10,
             ),
             fontWeight: FontWeight.bold,
           ),

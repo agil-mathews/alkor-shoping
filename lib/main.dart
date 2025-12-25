@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main(){
-  runApp(ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -6,6 +6,7 @@ import 'package:alkor_shopin/views/widgets/category.dart';
 import 'package:alkor_shopin/views/widgets/product_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductHomePage extends ConsumerWidget {
   const ProductHomePage({super.key});
@@ -98,14 +99,14 @@ class ProductHomePage extends ConsumerWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         hintText: 'Search products...',
-                        hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: getResponsiveFontSize(
-                      context,
-                      defaultFontSize: 16,
-                      widePortraitFontSize: 12,
-                    ),
-                    
-                  ),
+                        hintStyle: Theme.of(context).textTheme.bodyLarge
+                            ?.copyWith(
+                              fontSize: getResponsiveFontSize(
+                                context,
+                                defaultFontSize: 16,
+                                widePortraitFontSize: 12,
+                              ),
+                            ),
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -120,35 +121,48 @@ class ProductHomePage extends ConsumerWidget {
                   ),
 
                   SizedBox(
-                    height: 95,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: demoCategories.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 12),
-                      itemBuilder: (_, index) {
-                        final category = demoCategories[index];
-                        return Column(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.grey.shade200,
-                              backgroundImage: NetworkImage(category.image),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              category.name,
-                               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: getResponsiveFontSize(
-                      context,
-                      defaultFontSize: 12,
-                      widePortraitFontSize: 12,
-                    ),   
-                  ),
-                            ),
-                          ],
-                        );
-                      },
+                    height: 130,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: SizedBox(
+                         width: constraints.maxWidth >= 1024
+          ? 800   // desktop
+          : constraints.maxWidth >= 600
+              ? 600 // tablet
+              : double.infinity,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          scrollDirection: Axis.horizontal,
+                          itemCount: demoCategories.length,
+                          separatorBuilder: (_, __) => SizedBox(width: 12.w),
+                          itemBuilder: (_, index) {
+                            final category = demoCategories[index];
+                            return Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.grey.shade200,
+                                  backgroundImage: NetworkImage(category.image),
+                                ),
+                                const SizedBox(height: 6),
+                                Flexible(
+                                  child: Text(
+                                    category.name,
+                                    style: Theme.of(context).textTheme.bodyLarge
+                                        ?.copyWith(
+                                          fontSize: getResponsiveFontSize(
+                                            context,
+                                            defaultFontSize: 12,
+                                            widePortraitFontSize: 10,
+                                          ),
+                                        ),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),

@@ -117,7 +117,7 @@ class ProductCard extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
-                      text: isInCart ? "Remove" : "Add to Cart",
+                      text: isInCart ? "Remove" : "Add Cart",
                       onPressed: () {
                         ref.read(cartProvider.notifier).addToCart(product);
                       },
@@ -125,7 +125,7 @@ class ProductCard extends ConsumerWidget {
                       color: AppColors.primaryColor,
                       textColor: AppColors.white,
                       defaultFontSize: 12,
-                      widePortraitFontSize: 14,
+                      widePortraitFontSize: 10,
                       borderRadius: 18,
                     ),
                   ),
